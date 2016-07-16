@@ -8,6 +8,7 @@ _upload_port=$SUBNET_PREFIX"55"
 _base_environment="uno"
 
 _local_tty_dev="/dev/tty.usbmodem1411"
+_local_tty_dev="/dev/tty.usbmodem1421"
 
 # ------------------------------------------------
 # MAIN -------------------------------------------

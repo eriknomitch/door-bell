@@ -27,6 +27,14 @@ bool pinSet(int pin, bool state) {
   return false;
 }
 
+bool pinIsHigh(int pin) {
+  return (digitalRead(pin) == HIGH);
+}
+
+bool pinIsLow(int pin) {
+  return (digitalRead(pin) == LOW);
+}
+
 void pinsOutput(int pins[]) {
   for (int i = 0; i < arrayLength(pins); i++) {
       pinMode(pins[i], OUTPUT);
