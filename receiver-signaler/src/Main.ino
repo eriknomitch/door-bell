@@ -24,11 +24,15 @@ bool isGreen = true;
 #define COLOR_ORDER RGB
 #define NUM_LEDS    24
 #define PIN_BUZZER 2
+
+#define SERIAL_BAUD 9600
+
 CRGB leds[NUM_LEDS];
 
 #define BRIGHTNESS          30
 
 #define RING_DELAY 25
+#define RING_TIMES 30
 
 int msg[1];
 RF24 radio(9,10);
@@ -42,8 +46,8 @@ typedef void (*SimplePatternList[])();
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 uint8_t gHue = 0; // rotating "base color" used by many of the patterns
 
-void ring() {
-  for (int i = 0; i < 30; i ++) {
+void ringTimes(int times) {
+  for (int i = 0; i < times; i ++) {
     for (int l = 0; l < NUM_LEDS; l++) {
       if (!isGreen) {
         leds[l] = CRGB::Green;
@@ -68,10 +72,12 @@ void ring() {
   pinLow(PIN_BUZZER);
 }
 
+void ring() {
+  return ringTimes(RING_TIMES);
+}
 
 void setup() {
-  //delay(3000); // 3 second delay for recovery
-  delay(1000);
+  delay(3000); // 3 second delay for recovery
 
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
 
@@ -82,12 +88,12 @@ void setup() {
   pinMode(SIG_BUTTON, INPUT);
   pinMode(PIN_BUZZER, OUTPUT);
 
-  Serial.begin(9600);
+  Serial.begin(SERIAL_BAUD);
   radio.begin();
   radio.openReadingPipe(1,pipe);
   radio.startListening();
 
-  ring();
+  ringTimes(5);
 }
 
 // http://shanes.net/another-nrf24l01-sketch-string-sendreceive/
