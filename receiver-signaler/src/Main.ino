@@ -12,14 +12,7 @@
 
 FASTLED_USING_NAMESPACE
 
-// FastLED "100-lines-of-code" demo reel, showing just a few 
-// of the kinds of animation patterns you can quickly and easily 
-// compose using FastLED.  
-//
-// This example also shows one easy way to define multiple 
-// animations patterns and have them automatically rotate.
-//
-// -Mark Kriegsman, December 2014
+bool isGreen = true;
 
 #if defined(FASTLED_VERSION) && (FASTLED_VERSION < 3001000)
 #warning "Requires FastLED 3.1 or later; check github for latest code."
@@ -35,7 +28,7 @@ CRGB leds[NUM_LEDS];
 
 #define BRIGHTNESS          30
 
-#define RING_DELAY 100
+#define RING_DELAY 25
 
 int msg[1];
 RF24 radio(9,10);
@@ -50,10 +43,15 @@ uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 uint8_t gHue = 0; // rotating "base color" used by many of the patterns
 
 void ring() {
-  for (int i = 0; i < 10; i ++) {
+  for (int i = 0; i < 30; i ++) {
     for (int l = 0; l < NUM_LEDS; l++) {
-      leds[l] = CRGB::Blue;
+      if (!isGreen) {
+        leds[l] = CRGB::Green;
+      } else {
+        leds[l] = CRGB::Blue;
+      }
     }
+    isGreen = !isGreen;
 
     pinLow(PIN_BUZZER);
 
@@ -72,7 +70,8 @@ void ring() {
 
 
 void setup() {
-  delay(3000); // 3 second delay for recovery
+  //delay(3000); // 3 second delay for recovery
+  delay(1000);
 
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
 
@@ -87,6 +86,8 @@ void setup() {
   radio.begin();
   radio.openReadingPipe(1,pipe);
   radio.startListening();
+
+  ring();
 }
 
 // http://shanes.net/another-nrf24l01-sketch-string-sendreceive/
