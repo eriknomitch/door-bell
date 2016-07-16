@@ -6,7 +6,7 @@
 // -----------------------------------------------
 // PINS ------------------------------------------
 // -----------------------------------------------
-void pinHigh(int pin) {
+void pinHigh(int pin) {/*{{{*/
   digitalWrite(pin, HIGH);
 }
 
@@ -39,12 +39,12 @@ void pinsOutput(int pins[]) {
   for (int i = 0; i < arrayLength(pins); i++) {
       pinMode(pins[i], OUTPUT);
     }
-}
+}/*}}}*/
 
 // -----------------------------------------------
 // BLINKING --------------------------------------
 // -----------------------------------------------
-void blink(int pin, int blinkMs, int blinkTimes) {
+void blink(int pin, int blinkMs, int blinkTimes) {/*{{{*/
   for (int i = 0; i < blinkTimes; i++) {
         pinHigh(pin);
         delay(blinkMs);
@@ -60,15 +60,16 @@ void blinkWithStartState(int pin, int blinkMs, int blinkTimes, bool startState) 
       pinSet(pin, startState);
       delay(blinkMs);
     }
-}
+}/*}}}*/
 
 // -----------------------------------------------
 // SERIAL ----------------------------------------
 // -----------------------------------------------
-
+/*{{{*/
 // WARNING: I believe this will only work in screen.
 void clearSerial() {
   Serial.write(27); // Print 'esc'
   Serial.print("[2J");
 }
+/*}}}*/
 
