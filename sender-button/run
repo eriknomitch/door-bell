@@ -1,0 +1,37 @@
+#!/bin/zsh
+
+# ------------------------------------------------
+# GLOBALS ----------------------------------------
+# ------------------------------------------------
+_upload_port=$SUBNET_PREFIX"55"
+
+_environment="uno"
+
+_local_tty_dev=$1
+
+# ------------------------------------------------
+# MAIN -------------------------------------------
+# ------------------------------------------------
+
+# Determine upload port
+# ------------------------------------------------
+_upload_port=$_local_tty_dev
+
+# Prompt
+# ------------------------------------------------
+echo "Environment: `stylize $_environment`"
+print-row -
+echo -n "Run? [ENTER] "
+read
+
+# Run
+# ------------------------------------------------
+if platformio run --target upload --environment $_environment --upload-port=$_upload_port; then
+  _message="Success."
+else
+  _message="Failed to upload."
+fi
+
+# Notify
+# ------------------------------------------------
+notify "Upload" $_message
