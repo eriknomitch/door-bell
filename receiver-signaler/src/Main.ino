@@ -45,6 +45,7 @@ void loop() {
       else {
        Serial.println(theMessage);
        theMessage= ""; 
+       ring();
       }
    }
 

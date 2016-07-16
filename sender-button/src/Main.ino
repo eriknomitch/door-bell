@@ -31,13 +31,17 @@ void loop() {
   /*}*/
 
   /*delay(10);*/
+  
+  while (pinIsLow(SIG_BUTTON)) {
+    delay(10);
+  }
 
-    String theMessage = "Hello there!";
+  String theMessage = "Hello there!";
   int messageSize = theMessage.length();
   for (int i = 0; i < messageSize; i++) {
-    int charToSend[1];
-    charToSend[0] = theMessage.charAt(i);
-    radio.write(charToSend,1);
+  int charToSend[1];
+  charToSend[0] = theMessage.charAt(i);
+  radio.write(charToSend,1);
   }  
 //send the 'terminate string' value...  
   msg[0] = 2; 
@@ -48,7 +52,8 @@ void loop() {
 as I still get the first character 'cut-off' sometimes. I have a 'checksum' function
 on the receiver to verify the message was successfully sent.
 */
-  radio.powerDown(); 
+  radio.powerDown();
+
   delay(1000);
   radio.powerUp();
 }
