@@ -33,7 +33,7 @@ void loop() {
   /*delay(10);*/
   
   while (pinIsLow(SIG_BUTTON)) {
-    delay(10);
+    delay(1);
   }
 
   String theMessage = "Hello there!";
@@ -46,12 +46,12 @@ void loop() {
 //send the 'terminate string' value...  
   msg[0] = 2; 
   radio.write(msg,1);
-/*delay sending for a short period of time.  radio.powerDown()/radio.powerupp
-//with a delay in between have worked well for this purpose(just using delay seems to
-//interrupt the transmission start). However, this method could still be improved
-as I still get the first character 'cut-off' sometimes. I have a 'checksum' function
-on the receiver to verify the message was successfully sent.
-*/
+  /*delay sending for a short period of time.  radio.powerDown()/radio.powerupp
+  //with a delay in between have worked well for this purpose(just using delay seems to
+  //interrupt the transmission start). However, this method could still be improved
+  as I still get the first character 'cut-off' sometimes. I have a 'checksum' function
+  on the receiver to verify the message was successfully sent.
+  */
   radio.powerDown();
 
   delay(1000);
