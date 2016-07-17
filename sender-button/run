@@ -7,19 +7,25 @@ _upload_port=$SUBNET_PREFIX"55"
 
 _environment="uno"
 
-_local_tty_dev=$1
-
 # ------------------------------------------------
 # MAIN -------------------------------------------
 # ------------------------------------------------
 
 # Determine upload port
 # ------------------------------------------------
-_upload_port=$_local_tty_dev
+_upload_port=`ls /dev/tty.* | grep -o "usbmodem[0-9]*$"`
+
+if [[ -z $_upload_port ]] ; then
+  echo "fatal: Cannot find any valid upload port at '/dev/tty.*'."
+  exit 1
+fi
+
+_upload_port="/dev/tty.$_upload_port"
 
 # Prompt
 # ------------------------------------------------
 echo "Environment: `stylize $_environment`"
+echo "Upload Port: `stylize $_upload_port`"
 print-row -
 echo -n "Run? [ENTER] "
 read
