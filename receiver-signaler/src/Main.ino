@@ -29,7 +29,7 @@ bool isGreen = true;
 
 CRGB leds[NUM_LEDS];
 
-#define BRIGHTNESS          30
+#define BRIGHTNESS 255
 
 #define RING_DELAY 25
 #define RING_TIMES 30
