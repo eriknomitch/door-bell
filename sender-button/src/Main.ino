@@ -20,6 +20,8 @@ const uint64_t pipe = 0xE8E8F0F0E1LL;
 int msg[1];
 RF24 radio(9,10);
 
+unsigned long pressedLastSent = 0;
+
 // -----------------------------------------------
 // UTILITY ---------------------------------------
 // -----------------------------------------------
@@ -28,8 +30,18 @@ void ring() {
 }
 
 void sendPressed() {
+
+  if (millis() - pressedLastSent <= 1000) {
+    Serial.println("Pressed too soon. Not sending.");
+    return;
+  }
+ 
+  pressedLastSent = millis();
+
+  Serial.println("Sending 'pressed'...");
+
   // It's pressed. Send the message.
-  String theMessage = "Hello there!";
+  String theMessage = "pressed";
   int messageSize = theMessage.length();
   for (int i = 0; i < messageSize; i++) {
     int charToSend[1];
@@ -40,6 +52,7 @@ void sendPressed() {
   //send the 'terminate string' value...  
   msg[0] = 2; 
   radio.write(msg,1);
+  Serial.println("Done.");
 }
 
 // -----------------------------------------------
@@ -62,7 +75,7 @@ void setup() {
 void loop() {
  
   // Wait until the button is pressed
-  while (pinIsLow(SIG_BUTTON)) { delay(1); }
+  while (pinIsLow(SIG_BUTTON)) { delay(10); }
 
   sendPressed();
 
@@ -72,7 +85,9 @@ void loop() {
   as I still get the first character 'cut-off' sometimes. I have a 'checksum' function
   on the receiver to verify the message was successfully sent.
   */
+  /*
   radio.powerDown();
   delay(1000);
   radio.powerUp();
+  */
 }
