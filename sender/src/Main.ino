@@ -28,6 +28,16 @@ unsigned long pressedLastSent = 0;
 // -----------------------------------------------
 // UTILITY ---------------------------------------
 // -----------------------------------------------
+
+void sendPressedPayload() {
+  Serial.println("@sendPressedPayload()");
+  int payload[2];
+  payload[0] = 100;
+  payload[0] = 2;
+
+  radio.write(payload, 2);
+}
+
 void sendPressed() {
 
   if (millis() - pressedLastSent <= 1000) {
@@ -41,25 +51,7 @@ void sendPressed() {
 
   // It's pressed. Send the message.
   // ---------------------------------------------
-  int payload[2];
-  payload[0] = 100;
-  payload[0] = 2;
-
-  radio.write(payload, 2);
-
-  /*
-  String theMessage = "pressed";
-  int messageSize = theMessage.length();
-  for (int i = 0; i < messageSize; i++) {
-    int charToSend[1];
-    charToSend[0] = theMessage.charAt(i);
-    radio.write(charToSend,1);
-  }
-
-  //send the 'terminate string' value...  
-  msg[0] = 2; 
-  radio.write(msg,1);
-  */
+  sendPressedPayload();
 
   Serial.println("Done.");
 }
@@ -68,14 +60,17 @@ void sendPressed() {
 // SETUP -----------------------------------------
 // -----------------------------------------------
 void setup() {
+  Serial.begin(SERIAL_BAUD);
+  Serial.println("+ setup()");
+
   pinMode(LED_STATUS, OUTPUT);
   pinMode(SIG_BUTTON, INPUT);
 
-  Serial.begin(SERIAL_BAUD);
-
   radio.begin();
   radio.openWritingPipe(pipe);
-  radio.printDetails();
+  //radio.printDetails();
+  
+  Serial.println("- setup()");
 }
 
 // -----------------------------------------------
@@ -87,8 +82,8 @@ void loop() {
   // Wait until the button is pressed
   //while (pinIsLow(SIG_BUTTON)) { delay(10); }
 
-  sendPressed();
   delay(5000);
+  sendPressedPayload();
 
   /*delay sending for a short period of time.  radio.powerDown()/radio.powerupp
   //with a delay in between have worked well for this purpose(just using delay seems to
