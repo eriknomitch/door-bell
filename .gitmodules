@@ -1,3 +1,0 @@
-[submodule "sender-button/lib/RF24"]
-	path = sender-button/lib/RF24
-	url = https://github.com/maniacbug/RF24.git
