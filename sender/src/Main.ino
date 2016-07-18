@@ -20,7 +20,7 @@ const uint64_t pipe = 0xE8E8F0F0E1LL;
 // -----------------------------------------------
 // GLOBALS ---------------------------------------
 // -----------------------------------------------
-int msg[1];
+//int msg[1];
 RF24 radio(9,10);
 
 unsigned long pressedLastSent = 0;
@@ -28,10 +28,6 @@ unsigned long pressedLastSent = 0;
 // -----------------------------------------------
 // UTILITY ---------------------------------------
 // -----------------------------------------------
-void ring() {
-  blink(LED_STATUS, 100, 50); 
-}
-
 void sendPressed() {
 
   if (millis() - pressedLastSent <= 1000) {
@@ -65,7 +61,6 @@ void sendPressed() {
   radio.write(msg,1);
   */
 
-
   Serial.println("Done.");
 }
 
@@ -90,9 +85,10 @@ void setup() {
 void loop() {
  
   // Wait until the button is pressed
-  while (pinIsLow(SIG_BUTTON)) { delay(10); }
+  //while (pinIsLow(SIG_BUTTON)) { delay(10); }
 
   sendPressed();
+  delay(5000);
 
   /*delay sending for a short period of time.  radio.powerDown()/radio.powerupp
   //with a delay in between have worked well for this purpose(just using delay seems to
