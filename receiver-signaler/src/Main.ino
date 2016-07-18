@@ -29,7 +29,7 @@ bool isGreen = true;
 
 CRGB leds[NUM_LEDS];
 
-#define BRIGHTNESS 255
+#define BRIGHTNESS 55
 
 #define RING_DELAY 25
 #define RING_TIMES 30
@@ -98,19 +98,17 @@ void setup() {
 
 // http://shanes.net/another-nrf24l01-sketch-string-sendreceive/
 void loop() {
-
-    if (radio.available()){
+  if (radio.available()){
     bool done = false;  
-      done = radio.read(msg, 1); 
-      char theChar = msg[0];
-      if (msg[0] != 2){
-        theMessage.concat(theChar);
-        }
-      else {
-       Serial.println(theMessage);
-       theMessage= ""; 
-       ring();
-      }
-   }
-
+    done = radio.read(msg, 1); 
+    char theChar = msg[0];
+    if (msg[0] != 2){
+      theMessage.concat(theChar);
+    }
+    else {
+      Serial.println(theMessage);
+      theMessage= ""; 
+      ring();
+    }
+  }
 }
