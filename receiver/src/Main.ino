@@ -27,14 +27,14 @@ FASTLED_USING_NAMESPACE
 #define NUM_LEDS    24
 #define PIN_BUZZER  3
 
-CRGB leds[NUM_LEDS];
-
 #define BRIGHTNESS 55
 
 #define BUZZER_LEVEL 200
 
 #define RING_DELAY 25
 #define RING_TIMES 30
+
+CRGB leds[NUM_LEDS];
 
 bool isGreen = true;
 
