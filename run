@@ -6,11 +6,11 @@ read choice
 
 case $choice in
   s)
-    cd sender-button
+    cd sender
     ./run $*
     ;;
   r)
-    cd receiver-signaler
+    cd receiver
     ./run $*
     ;;
 esac
