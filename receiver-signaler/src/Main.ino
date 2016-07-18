@@ -79,6 +79,9 @@ void ring() {
   return ringTimes(RING_TIMES);
 }
 
+// -----------------------------------------------
+// SETUP -----------------------------------------
+// -----------------------------------------------
 void setup() {
   Serial.begin(SERIAL_BAUD);
   Serial.println("+ setup()");
@@ -91,28 +94,21 @@ void setup() {
   pinMode(LED_STATUS, OUTPUT);
   pinMode(SIG_BUTTON, INPUT);
   pinMode(PIN_BUZZER, OUTPUT);
+  
+  ringTimes(5);
+  Serial.println("- setup()");
 
   radio.begin();
   radio.openReadingPipe(1,pipe);
   radio.startListening();
-
-  ringTimes(5);
-  Serial.println("- setup()");
 }
 
 // http://shanes.net/another-nrf24l01-sketch-string-sendreceive/
 void loop() {
-  if (radio.available()){
-    radio.read(msg, 1); 
-    char theChar = msg[0];
-    if (msg[0] != 2){
-      theMessage.concat(theChar);
-    }
-    else {
-      Serial.print("Received: ");
-      Serial.println(theMessage);
-      theMessage= ""; 
-      ring();
-    }
+  if (radio.available()) {
+    int payload[2];
+    radio.read(payload, 2);
+    Serial.println("Received:");
+    //ring();
   }
 }

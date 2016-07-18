@@ -44,6 +44,14 @@ void sendPressed() {
   Serial.println("Sending 'pressed'...");
 
   // It's pressed. Send the message.
+  // ---------------------------------------------
+  int payload[2];
+  payload[0] = 100;
+  payload[0] = 2;
+
+  radio.write(payload, 2);
+
+  /*
   String theMessage = "pressed";
   int messageSize = theMessage.length();
   for (int i = 0; i < messageSize; i++) {
@@ -55,6 +63,9 @@ void sendPressed() {
   //send the 'terminate string' value...  
   msg[0] = 2; 
   radio.write(msg,1);
+  */
+
+
   Serial.println("Done.");
 }
 
@@ -69,6 +80,7 @@ void setup() {
 
   radio.begin();
   radio.openWritingPipe(pipe);
+  radio.printDetails();
 }
 
 // -----------------------------------------------
@@ -94,3 +106,4 @@ void loop() {
   radio.powerUp();
   */
 }
+
