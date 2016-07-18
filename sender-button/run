@@ -27,9 +27,6 @@ _upload_port="/dev/tty.$_upload_port"
 echo "Environment: `stylize $_environment`"
 echo "Upload Port: `stylize $_upload_port`"
 print-row -
-echo -n "Uploading in 3 seconds..."
-sleep 3
-echo
 
 # Run
 # ------------------------------------------------

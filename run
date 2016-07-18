@@ -1,0 +1,16 @@
+#!/bin/zsh
+
+echo "s - Sender"
+echo "r - Receiver"
+read choice
+
+case $choice in
+  s)
+    cd sender-button
+    ./run $*
+    ;;
+  r)
+    cd receiver-signaler
+    ./run $*
+    ;;
+esac
