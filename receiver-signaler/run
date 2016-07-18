@@ -39,3 +39,7 @@ fi
 # Notify
 # ------------------------------------------------
 notify "Upload" $_message
+
+if prompt "Open Serial TTY?"; then
+  screen $_upload_port 9600
+fi

@@ -1,5 +1,3 @@
-#define LED_STATUS 7
-#define SIG_BUTTON 8
 #include "env.h"
 #include "utility.h"
 
@@ -8,31 +6,32 @@
 #include <RF24_config.h>
 #include <SPI.h>
 
-#include "FastLED.h"
+#include <FastLED.h>
 
 FASTLED_USING_NAMESPACE
 
-bool isGreen = true;
+#define SERIAL_BAUD 9600
 
 #if defined(FASTLED_VERSION) && (FASTLED_VERSION < 3001000)
 #warning "Requires FastLED 3.1 or later; check github for latest code."
 #endif
 
+#define LED_STATUS  7
+#define SIG_BUTTON  8
 #define DATA_PIN    6
-//#define CLK_PIN   4
 #define LED_TYPE    WS2812
 #define COLOR_ORDER RGB
 #define NUM_LEDS    24
-#define PIN_BUZZER 2
-
-#define SERIAL_BAUD 9600
+#define PIN_BUZZER  3
 
 CRGB leds[NUM_LEDS];
 
-#define BRIGHTNESS 55
+#define BRIGHTNESS 5
 
 #define RING_DELAY 25
 #define RING_TIMES 30
+
+bool isGreen = true;
 
 int msg[1];
 RF24 radio(9,10);
@@ -65,7 +64,8 @@ void ringTimes(int times) {
     for (int l = 0; l < NUM_LEDS; l++) {
       leds[l] = CRGB::Black;
     }
-    pinHigh(PIN_BUZZER);
+    analogWrite(PIN_BUZZER, 500);
+
     FastLED.show();
     delay(RING_DELAY);
   }
@@ -77,7 +77,8 @@ void ring() {
 }
 
 void setup() {
-  delay(3000); // 3 second delay for recovery
+  Serial.begin(SERIAL_BAUD);
+  Serial.println("+ setup()");
 
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
 
@@ -88,24 +89,24 @@ void setup() {
   pinMode(SIG_BUTTON, INPUT);
   pinMode(PIN_BUZZER, OUTPUT);
 
-  Serial.begin(SERIAL_BAUD);
   radio.begin();
   radio.openReadingPipe(1,pipe);
   radio.startListening();
 
   ringTimes(5);
+  Serial.println("- setup()");
 }
 
 // http://shanes.net/another-nrf24l01-sketch-string-sendreceive/
 void loop() {
   if (radio.available()){
-    bool done = false;  
-    done = radio.read(msg, 1); 
+    radio.read(msg, 1); 
     char theChar = msg[0];
     if (msg[0] != 2){
       theMessage.concat(theChar);
     }
     else {
+      Serial.print("Received: ");
       Serial.println(theMessage);
       theMessage= ""; 
       ring();
