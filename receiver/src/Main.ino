@@ -29,7 +29,9 @@ FASTLED_USING_NAMESPACE
 
 CRGB leds[NUM_LEDS];
 
-#define BRIGHTNESS 5
+#define BRIGHTNESS 55
+
+#define BUZZER_LEVEL 200
 
 #define RING_DELAY 25
 #define RING_TIMES 30
@@ -67,7 +69,8 @@ void ringTimes(int times) {
     for (int l = 0; l < NUM_LEDS; l++) {
       leds[l] = CRGB::Black;
     }
-    analogWrite(PIN_BUZZER, 500);
+
+    analogWrite(PIN_BUZZER, BUZZER_LEVEL);
 
     FastLED.show();
     delay(RING_DELAY);
@@ -109,6 +112,6 @@ void loop() {
     int payload[2];
     radio.read(payload, 2);
     Serial.println("Received:");
-    //ring();
+    ring();
   }
 }
