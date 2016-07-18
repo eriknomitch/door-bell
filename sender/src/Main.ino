@@ -71,6 +71,7 @@ void setup() {
   //radio.printDetails();
   
   Serial.println("- setup()");
+  delay(3000);
 }
 
 // -----------------------------------------------
@@ -79,22 +80,9 @@ void setup() {
 // http://shanes.net/another-nrf24l01-sketch-string-sendreceive/
 void loop() {
  
-  // Wait until the button is pressed
-  //while (pinIsLow(SIG_BUTTON)) { delay(10); }
+  // Wait until the button is pressed then send.
+  while (pinIsLow(SIG_BUTTON)) { delay(10); }
 
-  delay(5000);
-  sendPressedPayload();
-
-  /*delay sending for a short period of time.  radio.powerDown()/radio.powerupp
-  //with a delay in between have worked well for this purpose(just using delay seems to
-  //interrupt the transmission start). However, this method could still be improved
-  as I still get the first character 'cut-off' sometimes. I have a 'checksum' function
-  on the receiver to verify the message was successfully sent.
-  */
-  /*
-  radio.powerDown();
-  delay(1000);
-  radio.powerUp();
-  */
+  sendPressed();
 }
 
