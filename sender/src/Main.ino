@@ -3,10 +3,13 @@
 // ===============================================
 #include "env.h"
 #include "utility.h"
+
 #include <SPI.h>
 #include <nRF24L01.h>
 #include <RF24.h>
 #include <RF24_config.h>
+
+#include <Button.h>
 
 // -----------------------------------------------
 // CONSTANTS -------------------------------------
@@ -24,6 +27,8 @@ const uint64_t pipe = 0xE8E8F0F0E1LL;
 RF24 radio(9,10);
 
 unsigned long pressedLastSent = 0;
+
+Button button = Button(SIG_BUTTON, 0);
 
 // -----------------------------------------------
 // UTILITY ---------------------------------------
@@ -79,10 +84,17 @@ void setup() {
 // -----------------------------------------------
 // http://shanes.net/another-nrf24l01-sketch-string-sendreceive/
 void loop() {
+
+  if (button.uniquePress()) {
+    sendPressedPayload();
+  }
+
+  /*
  
   // Wait until the button is pressed then send.
-  while (pinIsLow(SIG_BUTTON)) { delay(10); }
-
-  sendPressed();
+  if (button.uniquePress()) {
+    sendPressedPayload();
+  }
+  */
 }
 
