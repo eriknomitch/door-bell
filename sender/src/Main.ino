@@ -84,17 +84,8 @@ void setup() {
 // -----------------------------------------------
 // http://shanes.net/another-nrf24l01-sketch-string-sendreceive/
 void loop() {
-
   if (button.uniquePress()) {
     sendPressedPayload();
   }
-
-  /*
- 
-  // Wait until the button is pressed then send.
-  if (button.uniquePress()) {
-    sendPressedPayload();
-  }
-  */
 }
 
