@@ -23,20 +23,18 @@ const uint64_t pipe = 0xE8E8F0F0E1LL;
 // -----------------------------------------------
 // GLOBALS ---------------------------------------
 // -----------------------------------------------
-//int msg[1];
 RF24 radio(9,10);
-
-unsigned long pressedLastSent = 0;
 
 Button button = Button(SIG_BUTTON, 0);
 
 // -----------------------------------------------
 // UTILITY ---------------------------------------
 // -----------------------------------------------
-
 void sendPressedPayload() {
   Serial.println("@sendPressedPayload()");
+
   int payload[2];
+
   payload[0] = 100;
   payload[0] = 2;
 
@@ -44,20 +42,8 @@ void sendPressedPayload() {
 }
 
 void sendPressed() {
-
-  if (millis() - pressedLastSent <= 1000) {
-    Serial.println("Pressed too soon. Not sending.");
-    return;
-  }
- 
-  pressedLastSent = millis();
-
-  Serial.println("Sending 'pressed'...");
-
-  // It's pressed. Send the message.
-  // ---------------------------------------------
+  Serial.println("Sending 'pressed' payload...");
   sendPressedPayload();
-
   Serial.println("Done.");
 }
 
